@@ -27,36 +27,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {% extends 'core.html' %}
 
-{% block breadcrumbs %}Frontpage{% endblock %}
 
 {% block pagearea %}
-<h2>This instance of Server Monitor is currently watching:</h2>
 <div id="serverlist">
-<table>
 {% for server in serverlist %}
-<div id="serveritem"><tr>
-<td id="statusimagetd">
-<div id="statusimage">
-{% if server.status %}
-<img src="/images/up.png"/>
-{% else %}
-<img src="/images/down.png"/>
-{% endif %}
-</div><!--statusimage--->
-</td>
-<td>
-<div id="serverdomain">{{ server.serverdomain }}</div>
-<div id="serverport">{% if server.ssl %}:443{% else %}:80{% endif %}</div>
-<br/>
-HTTP Status code:<div id="responsecode">{{ server.responsecode }}</div><!---responsecode--->
-</td>
-<td>
-Uptime: {{ server.uptime }}<br/>
-Monitored since: {{ server.startedmonitoring|date:_("D, M d, Y h:i:s a") }}
-</td>
-</tr>
+<div  class="server {% if server.status %}up{% else %}down{% endif %}">
+	<h2><a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a>
+</h2>
+<div class="meta">
+<span><strong>HTTP:</strong> {{ server.responsecode }}</span><!---responsecode--->
+<span><strong>Uptime:</strong> {{ server.uptime }}</span>
+<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("D, M d, Y h:i:s a") }}</span>
+</div>
+
 </div><!---serveritem--->
 {% endfor %}
-</table>
 </div><!---server list--->
 {% endblock %}

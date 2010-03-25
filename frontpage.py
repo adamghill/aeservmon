@@ -39,7 +39,7 @@ class MainHandler(webapp.RequestHandler):
     def get(self):
         serverlist = db.GqlQuery("SELECT * FROM Server")
         user = users.get_current_user()
-        template_values = { 'user': user, 'serverlist': serverlist, }
+        template_values = { 'user': user, 'serverlist': serverlist, 'root': True}
         path = os.path.join(os.path.dirname(__file__), 'frontpage.html')
         self.response.out.write(template.render(path, template_values))
 

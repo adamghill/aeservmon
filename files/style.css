@@ -1,235 +1,320 @@
-# Copyright (c) 2009, Steve Oliver (mrsteveman1@gmail.com)
-#All rights reserved.
-#
-#Redistribution and use in source and binary forms, with or without
-#modification, are permitted provided that the following conditions are met:
-#    * Redistributions of source code must retain the above copyright
-#      notice, this list of conditions and the following disclaimer.
-#    * Redistributions in binary form must reproduce the above copyright
-#      notice, this list of conditions and the following disclaimer in the
-#      documentation and/or other materials provided with the distribution.
-#    * Neither the name of the <organization> nor the
-#      names of its contributors may be used to endorse or promote products
-#      derived from this software without specific prior written permission.
-#
-#THIS SOFTWARE IS PROVIDED BY STEVE OLIVER ''AS IS'' AND ANY
-#EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-#WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-#DISCLAIMED. IN NO EVENT SHALL STEVE OLIVER BE LIABLE FOR ANY
-#DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-#(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-#LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-#ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-#(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-#SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/*   Copyright (c) 2009, Steve Oliver (mrsteveman1@gmail.com)
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *      * Neither the name of the <organization> nor the
+ *        names of its contributors may be used to endorse or promote products
+ *        derived from this software without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY STEVE OLIVER ''AS IS'' AND ANY
+ *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *  DISCLAIMED. IN NO EVENT SHALL STEVE OLIVER BE LIABLE FOR ANY
+ *  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
-body { 
-    margin:0; 
-    padding:0;
-} 
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica Neue Light", "HelveticaNeue-Light";
+}
 
 h1 {
-margin:0;
-padding:0;
+	margin:0;
+	padding:0;
 }
 
 h2 {
-margin:0;
-padding:0;
+	margin:0;
+	padding:0;
 }
 
-#headerarea 0 0 0 0; 
-    width:100%;
-    margin:0 auto;
-} 
+#headerarea {
 
-#mainpanel #description { 
-    margin:0; 
-    padding:40px; 
-} 
-
-#mainpanel h2 {
-    padding:24px 0 0 24px;
+width:100%;
+margin:0 auto;
 }
+
+#mainpanel #description {
+	margin:0;
+	padding:40px;
+}
+
 
 #pagearea {
-    padding:12px 0 0 218px;
+	/* padding:12px 0 0 218px; */
 }
 
 #pagearea h3 {
-    margin:0;
-    padding:0;
+	margin:0;
+	padding:0;
 }
 
 #adminserverlist {
-    margin-bottom:12px;
+	margin-bottom:12px;
 }
 
 #adminserverlist table {
-    border:1px inset #666;
+	border:1px inset #666;
 }
 
 #adminserverlist table td {
-    border:1px inset #666;
-    text-align:center;
+	border:1px inset #666;
+	text-align:center;
 }
 
 #adminserverlist table td form {
-    margin:0;
-    padding:0;
+	margin:0;
+	padding:0;
 }
 
-#monitoring { 
-	margin-left:12px;	
-	padding:0; 
-} 
+#monitoring {
+	margin-left:12px;
+	padding:0;
+}
 
-#serverlist { 
-	margin-left:12px;  
+#serverlist {
 }
 
 #serverlist table tr {
-    margin-bottom:8px;
+	margin-bottom:8px;
 }
 
 #serveritem {
-    margin:20px 0;
 }
 
 #serveritemtext {
 
-    display:inline;
+	display:inline;
 }
 
 #statusimage {
-   display:inline;
-   margin-right:4px;
-   padding-top:2px;
+	display:inline;
+	margin-right:4px;
+	padding-top:2px;
 }
 
 #statusimagetd {
-   border-right:4px solid #aaa;
+	border-right:4px solid #aaa;
 }
 
-#serverdomain {
-    margin:0;
-    display:inline;
-    font-weight:bold;
+#serverlist .server {
+	margin:20px 0;
+}
+#serverlist .server h2 {
+	margin:0;
+	font-weight: normal;
+	font-size: 40px;
+	margin: 0;
+	padding: 10px 20px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-bottom-left-radius: 0;
+	-webkit-border-left-bottom-radius: 0;
+	border-bottom-right-radius: 0;
+	-webkit-border-right-bottom-radius: 0;
 }
 
-#serverport {
-    margin-right:2px;
-    margin-left:-4px;
-    display:inline;
+#serverlist .server.up h2 {
+	background-color: #50c13a;
+	color: #fff;
+}
+#serverlist .server.down h2 {
+	background-color: #c32727;
+	color: #fff;
+}
+#serverlist .server a {
+	color: inherit;
+	text-decoration: none;
 }
 
-#responsecode {
-	font-weight:bold;
+#serverlist .meta {
+	padding: 5px 20px;
+	color: #333;
+	font-size: 11px;
+	border: solid 2px #000;
+	border-width: 0 2px 2px 2px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-left-bottom-radius: 10px;
+	border-bottom-right-radius: 10px;
+	-webkit-border-right-bottom-radius: 10px;
+}
+
+#serverlist .server.up .meta {
+	border-color: #50c13a;
+}
+#serverlist .server.down .meta {
+	border-color: #c32727;
+}
+/* #serverlist .meta, */
+#serverlist .meta span {
+	display: inline-block;
+	width: 20%;
+}
+#serverlist .meta span.monitored {
+	width: 50%;
+}
+#serverlist .meta strong {
+	font-weight: normal;
+	color: #666;
+}
+.serverport {
+	margin-right:2px;
+	margin-left:-4px;
+	display:inline;
+}
+
+.responsecode {
+	font-family: "Helvetica Neue", "HelveticaNeue";
 	color:#00ff00;
 	display:inline;
 }
 
+.container {
+	width: 860px;
+	margin: 0 auto;
+	position: relative;
+}
 #wrapper {
-    padding:0;
-    margin:0;
-    width:100%;
+	padding:0;
+	padding-top: 100px;
+	margin:0;
+	width:100%;
 }
 
 #controlpanel {;
-padding-top:12px;
-width:200px;
-height:100%;
-float:left;
-background:#1d1c1c;
+	padding-top:20px;
+	background:#1d1c1c;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 70px;
 }
 
 #controlpanel h1 {
-    margin:5px 0 0 0;
-    padding:0;
-    font-size:14px;
-    color:#fff;
-    text-align:center;
+	margin:5px 0 0 0;
+	padding:0;
+	font-size:14px;
+	color:#fff;
+	text-align:center;
 }
 
 #controlpanel img {
-    height:60px;
-    margin-left:15px;
+	height:60px;
+	margin-left:15px;
 }
 
-#linklist ul{
-list-style:none;
-margin:5px 0 0 0;
-padding:0;
-text-decoration:none;
-text-align:center;
+#linklist ul {
+	list-style:none;
+	margin: 0 0 0 0;
+	padding: 0;
+	float: left;
 }
 
 #linklist ul li {
-border-bottom:2px #fff inset;
-margin:4px 0 0 0;
+	float: left;
+	display: block;
+	padding: 15px 35px 15px 35px;
+	background-color: #fff;
+	-webkit-border-top-left-radius: 10px;
+	border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+text-shadow: #666 0px 0px 3px;
 }
 
+#linklist ul li.active {
+	background-color: #444;
+	color: #fff;
+}
+#linklist ul li + li {
+	border-left: solid 1px #000;
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+
+	-webkit-border-top-right-radius: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
 #linklist ul li a {
-font-weight:bold;
-text-decoration:none;
-color:#fff;
+	/* font-family: "Helvetica Neue", "HelveticaNeue"; */
+	text-decoration:none;
+	color:#000;
+}
+#linklist ul li.active a {
+	color:#fff;
+text-shadow: #ccc 0px 0px 3px;
 }
 
 #userdisplay {
-color:#fff;
-position:absolute;
-bottom:0px;
-left:18px;
+	color:#fff;
+	position:absolute;
+	bottom:0px;
+	right:18px;
 }
 
 #entrypanel {
-padding:0;
-margin-left:200px;
+	padding:0;
+	margin-left:200px;
 }
 
 #breadcrumbs {
-    padding:4px;
-    background:#1d1c1c;
-    color:#fff;
+	color:#fff;
+	float: left;
 }
 
 fieldset {
-    width:510px;
+	width:510px;
 }
 
 #form {
-    margin-top:8px;
-    width:485px;
+	margin-top:8px;
+	width:485px;
 }
 
 #form #entry {
-text-align:right;
-margin-bottom:6px;
+	text-align:right;
+	margin-bottom:6px;
 }
 
 #form #button {
-text-align:right;
+	text-align:right;
 }
 
 #form textarea {
-    height:18px;
-    border:1px solid #aaa;
+	height:18px;
+	border:1px solid #aaa;
 }
 
 #prowlimg {
-width:24px;
-height:24px;
-position:relative;
-top:5px;
+	width:24px;
+	height:24px;
+	position:relative;
+	top:5px;
 }
 
 #adminlink {
-    margin-left:12px;
+	margin-left:12px;
 }
 
-#footerarea { 
-    height:60px; 
-    padding:12px; 
-    font-size:22px; 
-    font-weight:bold; 
-} 
+#footerarea {
+	height:60px;
+	padding:12px;
+	font-size:22px;
+	/* font-family: "Helvetica Neue", "HelveticaNeue"; */
+}

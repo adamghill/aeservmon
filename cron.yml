@@ -1,7 +1,7 @@
 cron:
 - description: checking servers
   url: /checkservers
-  schedule: every 1 minutes
+  schedule: every 2 minutes
 
 - description: maintenance
   url: /maintenance 
