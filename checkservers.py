@@ -60,12 +60,12 @@ class CheckServers(webapp.RequestHandler):
 
 		string = ""
 		if days> 0:
-			string += str(days) + " " + (days == 1 and "day" or "days" ) + ", "
+			string += str(days) + "d "
 		if len(string)> 0 or hours> 0:
-			string += str(hours) + " " + (hours == 1 and "hour" or "hours" ) + ", "
+			string += str(hours) + "h "
 		if len(string)> 0 or minutes> 0:
-			string += str(minutes) + " " + (minutes == 1 and "minute" or "minutes" ) + ", "
-		string += str(seconds) + " " + (seconds == 1 and "second" or "seconds" )
+			string += str(minutes) + "m "
+		string += str(seconds) + "s"
 		server.uptime = string
 		server.put()
  
@@ -133,7 +133,7 @@ class CheckServers(webapp.RequestHandler):
 		prowlkey = self.adminoptions.prowlkey
 		prowlnotifier = prowlpy.Prowl(prowlkey)
 		try:
-			prowlnotifier.add('Server Monitor','Server %s is Down' % server.serverdomain, 'error code %s' % server.responsecode)
+			prowlnotifier.add('Server Monitor','Server %s is Down' % server.serverdomain, 'error code %s http://ping.magnetised.net/' % server.responsecode)
 		except:
 			logging.error('prowl notify failed, you may need to check your API key')
 		server.notifylimiter = True

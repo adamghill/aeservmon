@@ -32,12 +32,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <div id="serverlist">
 {% for server in serverlist %}
 <div  class="server {% if server.status %}up{% else %}down{% endif %}">
-	<h2><a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a>
+	<h2><a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a><span class="httpcode">{{ server.responsecode }}</span>
 </h2>
 <div class="meta">
-<span><strong>HTTP:</strong> {{ server.responsecode }}</span><!---responsecode--->
-<span><strong>Uptime:</strong> {{ server.uptime }}</span>
-<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("D, M d, Y h:i:s a") }}</span>
+<!---responsecode--->
+<span class="uptime"><strong>Uptime:</strong> {{ server.uptime }}</span>
+<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("M d, Y H:i:s") }}</span>
 </div>
 
 </div><!---serveritem--->
