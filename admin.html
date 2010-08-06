@@ -27,25 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {% extends 'core.html' %}
 
-{% block controlpanel %}
-<img style="display:inline;" src="/images/server.png" />
-
-<h1>App Engine Server Monitor</h1>
-
-<div id="userdisplay">
-  Logged in as:<br/>
-  {{ user }}
-</div>
-
-<div id="linklist">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/admin">Admin</a></li>
-    <li><a href="/admin/addserver">Add Servers</a></li>
-  </ul>
-</div>
-{% endblock %}
-
 {% block pagearea %}
 <h3>Current monitors</h3>
 
