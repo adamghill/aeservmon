@@ -24,35 +24,40 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {% endcomment %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>App Engine Server Monitor</title>
-<meta name="viewport" content="width=900" /> 
-<link rel="stylesheet" href="/files/style.css" type="text/css" media="screen" />
-<!--#if expr="(${HTTP_USER_AGENT} = /iPhone/)"-->
-<link rel="stylesheet" href="/files/iphone.css" type="text/css" media="screen" />
-<!--#endif -->
+	<meta charset="UTF-8" />
+	<title>Monitorious</title>
+	<meta name="viewport" content="width=900" /> 
+	<link rel="stylesheet" href="/files/style.css" type="text/css" media="screen" />
+
+	<!--#if expr="(${HTTP_USER_AGENT} = /iPhone/)"-->
+		<link rel="stylesheet" href="/files/iphone.css" type="text/css" media="screen" />
+	<!--#endif -->
 </head>
+
 <body>
-<div id="header">{% block header %}{% endblock %}</div><!---header--->
+<div id="header">{% block header %}{% endblock %}</div>
 <div id="wrapper">
 	<div id="controlpanel">
-	<div class="container">
-		<div id="linklist">
-			<ul>
-				<li{% if root %} class="active"{% endif %}><a href="/">Home</a></li>
-				<li{% if root  %}{% else %} class="active"{% endif %}><a href="/admin">Admin</a></li>
-			</ul>
-		</div><!---linklist--->
-		<div id="userdisplay">
-			Logged in as: {{ user }}
-		</div><!---userdisplay--->
-	</div><!---container--->
-	</div><!---controlpanel--->
+		<div class="container">
+			<div id="linklist">
+				<ul>
+					<li{% if root %} class="active"{% endif %}><a href="/">Home</a></li>
+					<li{% if root  %}{% else %} class="active"{% endif %}><a href="/admin">Admin</a></li>
+				</ul>
+			</div>
+			<div id="userdisplay">
+				Logged in as: {{ user }}
+			</div>
+		</div>
+	</div>
+	
 	<div id="mainpanel">
-		<div id="pagearea" class="container">{% block pagearea %}{% endblock %}<!---pagearea---></div>
-	</div><!---main panel--->
-</div><!---wrapper--->
-</body></html>
+		<div id="pagearea" class="container">{% block pagearea %}{% endblock %}</div>
+	</div>
+</div>
+</body>
+</html>

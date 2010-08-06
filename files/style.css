@@ -47,36 +47,48 @@ margin:0 auto;
 }
 
 #mainpanel #description {
-	margin:0;
-	padding:40px;
+	margin: 0;
+	padding: 40px;
 }
 
-
-#pagearea {
-	/* padding:12px 0 0 218px; */
+#pagearea h3,
+#pagearea h4 {
+	margin: 0px 0px 2px 0px;
+	padding: 0;
 }
 
-#pagearea h3 {
-	margin:0;
-	padding:0;
+#entry h4 {
+	position: relative;
+	left: -2px;
 }
 
 #adminserverlist {
-	margin-bottom:12px;
+	margin-bottom: 50px;
 }
 
-#adminserverlist table {
-	border:1px inset #666;
+#adminserverlist table, 
+#adminserverlist td, 
+#adminserverlist tr, 
+#adminserverlist thead, 
+#adminserverlist tfoot, 
+#adminserverlist tbody, 
+#adminserverlist th, 
+#adminserverlist tf { 
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+#adminserverlist table thead {
+	background: lightgray;
 }
 
 #adminserverlist table td {
-	border:1px inset #666;
-	text-align:center;
+	text-align: center;
 }
 
 #adminserverlist table td form {
-	margin:0;
-	padding:0;
+	margin: 0;
+	padding: 0;
 }
 
 #monitoring {
@@ -159,14 +171,16 @@ margin:0 auto;
 #serverlist .server.up .meta {
 	border-color: #50c13a;
 }
+
 #serverlist .server.down .meta {
 	border-color: #c32727;
 }
-/* #serverlist .meta, */
+
 #serverlist .meta span {
 	display: inline-block;
 	width: 10%;
 }
+
 #serverlist .meta span.uptime,
 #serverlist .meta span.monitored {
 	width: 40%;
@@ -176,16 +190,20 @@ margin:0 auto;
 	position: absolute;
 	right: 20px;
 }
+
 #serverlist .server.up span.httpcode {
 	color: #43a030;
 }
+
 #serverlist .server.down span.httpcode {
 	color: #a12020;
 }
+
 #serverlist .meta strong {
 	font-weight: normal;
 	color: #666;
 }
+
 .serverport {
 	margin-right:2px;
 	margin-left:-4px;
@@ -203,6 +221,7 @@ margin:0 auto;
 	margin: 0 auto;
 	position: relative;
 }
+
 #wrapper {
 	padding:0;
 	padding-top: 100px;
@@ -248,7 +267,6 @@ margin:0 auto;
 	border-top-left-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
 	border-bottom-left-radius: 10px;
-text-shadow: #666 0px 0px 3px;
 }
 
 #linklist ul li.active {
@@ -272,33 +290,26 @@ text-shadow: #666 0px 0px 3px;
 	text-decoration:none;
 	color:#000;
 }
+
 #linklist ul li.active a {
-	color:#fff;
-text-shadow: #ccc 0px 0px 3px;
+	color: #fff;
 }
 
 #userdisplay {
-	color:#ddd;
-	text-shadow: #999 0px 0px 3px;
+	color: #ddd;
 	position: absolute;
-	
-	right:0px;
+	right: 0px;
 	padding: 15px 0px 15px 35px;
 	text-align: right;
 }
 
 #entrypanel {
-	padding:0;
-	margin-left:200px;
-}
-
-#breadcrumbs {
-	color:#fff;
-	float: left;
+	padding: 0;
+	margin-left: 200px;
 }
 
 fieldset {
-	width:510px;
+	width: 510px;
 }
 
 #form {
@@ -307,33 +318,50 @@ fieldset {
 }
 
 #form #entry {
-	text-align:right;
-	margin-bottom:6px;
+	text-align: right;
+	margin-bottom: 6px;
 }
 
 #form #button {
-	text-align:right;
+	text-align: right;
+	margin-top: 20px;
 }
 
 #form textarea {
-	height:18px;
-	border:1px solid #aaa;
+	height: 18px;
+	border: 1px solid #aaa;
 }
 
-#prowlimg {
-	width:24px;
-	height:24px;
-	position:relative;
-	top:5px;
+#notifications {
+	position: relative;
+	left: 392px;
+}
+
+#notifications table,
+#notifications thead,
+#notifications td,
+#notifications tr { 
+	border-collapse: collapse;
+	padding: 3px;
+}
+
+#notifications tr {
+	text-align: center;
 }
 
 #adminlink {
-	margin-left:12px;
+	margin-left: 12px;
 }
 
 #footerarea {
-	height:60px;
-	padding:12px;
-	font-size:22px;
+	height: 60px;
+	padding: 12px;
+	font-size: 22px;
 	/* font-family: "Helvetica Neue", "HelveticaNeue"; */
 }
+
+#ssl {
+	position: relative;
+	top: -8px;
+}
+

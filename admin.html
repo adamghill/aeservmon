@@ -28,83 +28,136 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {% extends 'core.html' %}
 
 {% block controlpanel %}
-<img style="display:inline;" src="/images/server.png"></img>
+<img style="display:inline;" src="/images/server.png" />
+
 <h1>App Engine Server Monitor</h1>
+
 <div id="userdisplay">
-Logged in as:<br/>
-{{ user }}
-</div><!---userdisplay--->
-<div id="linklist">
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/admin">Admin</a></li>
-<li><a href="/admin/addserver">Add Servers</a></li>
-</div><!---linklist--->
-{% endblock %}
-
-{% block breadcrumbs %}
-Admin Panel
-{% endblock %}
-{% block pagearea %}
-<h3>Servers:</h3>
-<div id="adminserverlist">
-<table>
-<tr><td>Domain</td><td>SSL</td><td>Code</td><td>Uptime</td><td>Prowl</td><td>Email</td></tr>
-{% for server in serverlist %}
-<tr>
-<td>{{ server.serverdomain }}</td>
-<td>{% if server.ssl %}Yes{% else %}No{% endif %}</td>
-<td>{{ server.responsecode }}</td>
-<td>{{ server.uptime }}</td>
-<td>{{ server.notifywithprowl }}</td>
-<td>{{ server.notifywithemail }}</td>
-<td><form action="/admin/deleteserver" method="post">
-<input type="hidden" name="serverdomain" value={{ server.serverdomain }}>
-<input type="submit" value="Delete Server"></td>
-</tr>
-
-</form>
-{% endfor %}
-</table>
-</div><!---server list--->
-<fieldset>
-<legend>
-Add more servers:
-</legend>
-<div id="form">
-<form action="/admin/storeserver" method="post">
-<div id="entry">Server Domain: <textarea name="serverdomain" rows="1" cols="35"></textarea></div>
-<div id="entry">SSL? <select name="ssl">
-<option value="False" />No</option>
-<option value="True" />Yes</option>
-</select></div>
-<div id="entry">Notification methods:      
-Prowl <input type="checkbox" name="notifywithprowl" value="True" /><br/>
-Email <input type="checkbox" name="notifywithemail" value="True" /><br/>
+  Logged in as:<br/>
+  {{ user }}
 </div>
-<div id="button"><input type="submit" value="Add Server"></div>
-</form></fieldset>
-<br/>
+
+<div id="linklist">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/admin">Admin</a></li>
+    <li><a href="/admin/addserver">Add Servers</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block pagearea %}
+<h3>Current monitors</h3>
+
+<div id="adminserverlist">
+  <table>
+    <thead>
+      <tr>
+        <td>Url</td>
+        <td>Response</td>
+        <td>Uptime</td>
+        <td>Prowl</td>
+        <td>Email</td>
+        <td></td>
+      </tr>
+    </thead>
+    
+    {% for server in serverlist %}
+      <tr>
+        <td>{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</td>
+        <td>{{ server.responsecode }}</td>
+        <td>{{ server.uptime }}</td>
+        <td>{% if server.notifywithprowl %}Y{% else %}N{% endif %}</td>
+        <td>{% if server.notifywithemail %}Y{% else %}N{% endif %}</td>
+        <td>
+          <form action="/admin/deleteserver" method="post">
+            <input type="hidden" name="serverdomain" value={{ server.serverdomain }} />
+            <input type="submit" value="Delete Server" />
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
 <fieldset>
-<legend>
-Edit administrative options
-</legend>
-<!---Current twitter username: {{ twitteruser }}<br/>--->
-<!---Current twitter password: {{ twitterpass }}<br/>--->
-<div id="prowlapiline">Current prowl API key: {{ prowlkey }}
-{% if adminoptions.prowlkeyisvalid %}
-<img id="prowlimg" src="/images/up.png"/>
-{% else %}
-<img id="prowlimg" src="/images/down.png"/>
-{% endif %}</div><!---prowlapiline--->
-<div id="form">
-<form action="/admin/storeadminoptions" method="post">
-<!---<div id="entry">Twitter Username: <textarea name="twitteruser" rows="1" cols="35"></textarea></div>--->
-<!---<div id="entry">Twitter Password: <textarea name="twitterpass" rows="1" cols="35"></textarea></div>--->
-<div id="entry">Prowl API key: <textarea name="prowlkey" rows="1" cols="40"></textarea></div>
-<div id="button"><input type="submit" value="Update Options"></div>
-</form>
+  <legend>
+    Add more servers:
+  </legend>
+
+  <div id="form">
+    <form action="/admin/storeserver" method="post">
+      <div id="entry">
+        <h4>Url</h4>
+        <select id="ssl" name="ssl">
+          <option value="False">http://</option>
+          <option value="True">https://</option>
+        </select>
+        <textarea name="serverdomain" rows="1" cols="35"></textarea>
+      </div>
+  
+      <div id="entry">
+        <h4>Notifications</h4>
+        <table id="notifications">
+          <thead>
+            <tr>
+              <td>Prowl</td>
+              <td>Email</td>
+            </tr>
+          </thead>
+          <tr>
+            <td><input type="checkbox" name="notifywithprowl" value="True" /></td>
+            <td><input type="checkbox" name="notifywithemail" value="True" /></td>
+          </tr>
+        </table>
+      </div>
+  
+      <div id="button">
+        <input type="submit" value="Add Server">
+      </div>
+    </form>
+  </div>
 </fieldset>
-</div></div>
+<br/>
+
+<fieldset>
+  <legend>
+    Edit administrative options
+  </legend>
+
+  <!---Current twitter username: {{ twitteruser }}<br/>--->
+  <!---Current twitter password: {{ twitterpass }}<br/>--->
+
+  <div id="prowlapiline">
+    {% if adminoptions.prowlkeyisvalid %}
+      Current prowl API key: {{ prowlkey }}
+    {% endif %}
+  </div>
+
+  <div id="form">
+    <form action="/admin/storeadminoptions" method="post">
+      <!---<div id="entry">Twitter Username: <textarea name="twitteruser" rows="1" cols="35"></textarea></div>--->
+      <!---<div id="entry">Twitter Password: <textarea name="twitterpass" rows="1" cols="35"></textarea></div>--->
+      
+      <div id="entry">
+        <h4>
+          {% if adminoptions.prowlkeyisvalid %}
+            Update
+          {% else %}
+            Add
+          {% endif %}
+          
+          Prowl API key
+        </h4>
+        
+        <textarea name="prowlkey" rows="1" cols="40"></textarea>
+      </div>
+      
+      <div id="button">
+        <input type="submit" value="Update Options">
+      </div>
+    </form>
+  </div>
+</fieldset>
 
 {% endblock %}

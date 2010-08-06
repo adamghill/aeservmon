@@ -27,20 +27,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {% extends 'core.html' %}
 
-
 {% block pagearea %}
 <div id="serverlist">
-{% for server in serverlist %}
-<div  class="server {% if server.status %}up{% else %}down{% endif %}">
-	<h2><a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a><span class="httpcode">{{ server.responsecode }}</span>
-</h2>
-<div class="meta">
-<!---responsecode--->
-<span class="uptime"><strong>Uptime:</strong> {{ server.uptime }}</span>
-<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("M d, Y H:i:s") }}</span>
+	{% for server in serverlist %}
+		<div  class="server {% if server.status %}up{% else %}down{% endif %}">		
+			<h2>
+				<a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a>
+				<span class="httpcode">{{ server.responsecode }}</span>
+			</h2>
+			
+			<div class="meta">
+				<span class="uptime"><strong>Uptime:</strong> {{ server.uptime }}</span>
+				<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("M d, Y H:i:s") }}</span>
+			</div>
+		</div>
+	{% endfor %}
 </div>
-
-</div><!---serveritem--->
-{% endfor %}
-</div><!---server list--->
 {% endblock %}
