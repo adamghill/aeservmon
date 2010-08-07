@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <td>Url</td>
         <td>Response</td>
         <td>Uptime</td>
+        <td>Parser</td>
         <td>Prowl</td>
         <td>Email</td>
         <td></td>
@@ -48,6 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <td>{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</td>
         <td>{{ server.responsecode }}</td>
         <td>{{ server.uptime }}</td>
+        <td>{{ server.parser }}</td>
         <td>{% if server.notifywithprowl %}Y{% else %}N{% endif %}</td>
         <td>{% if server.notifywithemail %}Y{% else %}N{% endif %}</td>
         <td>
@@ -75,6 +77,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           <option value="True">https://</option>
         </select>
         <textarea name="serverdomain" rows="1" cols="35"></textarea>
+      </div>
+  
+      <div id="entry">
+        <h4>Parser</h4>
+        <select name="parser">
+          <option value="none">None</option>
+          <option value="html">HTML</option>
+          <option value="json">JSON</option>
+          <option value="xml">XML</option>
+          <option value="atom">ATOM</option>
+          <option value="rss">RSS</option>
+        </select>
       </div>
   
       <div id="entry">

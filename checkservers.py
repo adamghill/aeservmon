@@ -37,7 +37,9 @@ import datetime
 import time
 import logging
 import wsgiref.handlers
+import logging
 
+from django.utils import simplejson
 from models import Server, AdminOptions
 import prowlpy
 #import twitter
@@ -46,7 +48,7 @@ class CheckServers(webapp.RequestHandler):
 	serverlist = db.GqlQuery("SELECT * FROM Server")
 	adminoptions = AdminOptions.get_by_key_name('credentials')
     
-	def updateuptime(self,server):
+	def updateuptime(self, server):
 		now = time.mktime(datetime.datetime.now().timetuple())
 		servercameback = time.mktime(server.timeservercameback.timetuple())
 		difference = now - servercameback
@@ -69,22 +71,24 @@ class CheckServers(webapp.RequestHandler):
 		server.uptime = string
 		server.put()
  
-	def serverisup(self,server,responsecode):
+	def serverisup(self, server, responsecode):
 		if server.status == False:
 			self.servercameback(server)
 		server.status = True
+		server.parserstatus = True
 		server.responsecode = int(responsecode)
 		server.uptimecounter = server.uptimecounter + 1
 		self.updateuptime(server)
 		server.put()
     
-	def serverisdown(self,server,responsecode):
+	def serverisdown(self, server, responsecode):
 		server.status = False
 		server.uptimecounter = 0
 		server.uptime = "0"
 		server.responsecode = int(responsecode)
 		server.timeservercameback = 0
 		server.put()
+		
 		if server.notifylimiter == False:
 			if server.notifywithprowl:
 				self.notifyprowl(server)
@@ -93,26 +97,43 @@ class CheckServers(webapp.RequestHandler):
 		else:
 			pass
 
-	def servercameback(self,server):
+	def servercameback(self, server):
 		server.timeservercameback = datetime.datetime.now()
 
-	def testserver(self,server):
+	def testserver(self, server):
 		if server.ssl:
 			prefix = "https://"	
 		else:
 			prefix = "http://"
 		try:
+			server.lastmonitor = datetime.datetime.now()
 			url = prefix + "%s" % server.serverdomain
-			result = urlfetch.fetch(url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10 )
-		except DownloadError:
-			self.serverisdown(server,000)
+			logging.debug('Fetch url: %s.' % server.serverdomain)
+			response = urlfetch.fetch(url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10 )
+		except DownloadError, e:
+			logging.error('Download error. Check the url.')
+			self.serverisdown(server, 000)
 		else:
-			if result.status_code == 500:
-				self.serverisdown(server,result.status_code)
+			if response.status_code == 500:
+				logging.error('500')
+				self.serverisdown(server, response.status_code)
 			else:
-				self.serverisup(server,result.status_code)
-
-	def notifyemail(self,server):
+				if server.parser == "json":
+					self.parsejson(server, response)
+				else:
+					self.serverisup(server, response.status_code)
+					
+	def parsejson(self, server, response):
+		try:
+			simplejson.loads(response.content)
+			server.parserstatus = True
+			self.serverisup(server, response.status_code)
+		except Exception, e:
+			logging.error(e)
+			server.parserstatus = False
+			self.serverisdown(server, response.status_code)
+		
+	def notifyemail(self, server):
 		message = mail.EmailMessage()
 		message.sender = server.email
 		message.subject = "%s is down" % server.serverdomain
@@ -122,7 +143,7 @@ class CheckServers(webapp.RequestHandler):
 		server.notifylimiter = True
 		server.put()
 					
-	def notifytwitter(self,server):
+	def notifytwitter(self, server):
 		pass
 		#api = twitter.Api(username="%s" % self.adminoptions.twitteruser , password="%s" % self.adminoptions.twitterpass)
 		#api.PostDirectMessage(self.adminoptions.twitteruser, "%s is down" % server.serverdomain)
@@ -137,7 +158,7 @@ class CheckServers(webapp.RequestHandler):
 		except:
 			logging.error('prowl notify failed, you may need to check your API key')
 		server.notifylimiter = True
-		server.put()	
+		server.put()
                 
 	def get(self):
 		for server in self.serverlist:
