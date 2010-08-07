@@ -37,12 +37,16 @@ class Server(db.Model):
 	responsecode = db.IntegerProperty("Server response code", default=000)
 	notifylimiter = db.BooleanProperty("Notify limiter", default=False)
 	uptimecounter = db.IntegerProperty("Uptime Counter", default=0)
-	notifywithprowl = db.BooleanProperty("Prowl notifications",default=False)
-	notifywithemail = db.BooleanProperty("Email notifications",default=False)
-	notifywithtwitter = db.BooleanProperty("Twitter notifications",default=False)
-	notifywithfacebook = db.BooleanProperty("Facebook notifications",default=False)
-	notifywithsms = db.BooleanProperty("SMS notifications",default=False)
+	notifywithprowl = db.BooleanProperty("Prowl notifications", default=False)
+	notifywithemail = db.BooleanProperty("Email notifications", default=False)
+	notifywithtwitter = db.BooleanProperty("Twitter notifications", default=False)
+	notifywithfacebook = db.BooleanProperty("Facebook notifications", default=False)
+	notifywithsms = db.BooleanProperty("SMS notifications", default=False)
+	parser = db.StringProperty("Parser")
+	parserstatus = db.BooleanProperty("Parser status", default=True)
 	uptime = db.StringProperty("Uptime")
+	lastmonitor = db.DateTimeProperty("Last time monitor ran")
+	
 	class Uptime(db.Model):
 		unittime = db.DateTimeProperty("Time period for uptime data", auto_now_add=False)
 		uptimecounter = db.IntegerProperty("Counter for uptime in minutes for the time period", default=0)
@@ -50,7 +54,7 @@ class Server(db.Model):
     
 class AdminOptions(db.Model):
 	twitteruser = db.StringProperty("Twitter Username", multiline=False)
-	twitterpass = db.StringProperty("Twitter Passowrd", multiline=False)
+	twitterpass = db.StringProperty("Twitter Password", multiline=False)
 	facebookconnect = db.StringProperty("Facebook connect", multiline=False)
 	mobilesmsnumber = db.StringProperty("Mobile SMS number", multiline=False)
 	prowlkey = db.StringProperty("Prowl API Key", multiline=False)

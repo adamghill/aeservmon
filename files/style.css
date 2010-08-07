@@ -182,8 +182,19 @@ margin:0 auto;
 }
 
 #serverlist .meta span.uptime,
+#serverlist .meta span.monitored,
+#serverlist .meta span.parser,
+#serverlist .meta span.lastmonitor {
+	width: 33%;
+}
+
+#serverlist .meta span.lastmonitor,
 #serverlist .meta span.monitored {
-	width: 40%;
+	text-align: center;
+}
+
+#serverlist .meta span.parser {
+	text-align: right;
 }
 
 #serverlist .server span.httpcode {
