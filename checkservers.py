@@ -38,6 +38,7 @@ import time
 import logging
 import wsgiref.handlers
 import logging
+import re
 
 from django.utils import simplejson
 from models import Server, AdminOptions
@@ -120,6 +121,12 @@ class CheckServers(webapp.RequestHandler):
 			else:
 				if server.parser == "json":
 					self.parsejson(server, response)
+				elif server.parser == "startswith":
+					self.parsestartswith(server, response)
+				elif server.parser == "regex":
+					self.parseregex(server, response)
+				elif server.parser == "endswith":
+					self.parseendswith(server, response)
 				else:
 					self.serverisup(server, response.status_code)
 					
@@ -130,6 +137,30 @@ class CheckServers(webapp.RequestHandler):
 			self.serverisup(server, response.status_code)
 		except Exception, e:
 			logging.error(e)
+			server.parserstatus = False
+			self.serverisdown(server, response.status_code)
+			
+	def parseendswith(self, server, response):
+		if unicode(response.content, errors='ignore').endswith(server.parsermetadata):
+			server.parserstatus = True
+			self.serverisup(server, response.status_code)
+		else:
+			server.parserstatus = False
+			self.serverisdown(server, response.status_code)
+
+	def parsestartswith(self, server, response):
+		if unicode(response.content, errors='ignore').startswith(server.parsermetadata):
+			server.parserstatus = True
+			self.serverisup(server, response.status_code)
+		else:
+			server.parserstatus = False
+			self.serverisdown(server, response.status_code)
+
+	def parseregex(self, server, response):
+		if re.match(server.parsermetadata, response.content):
+			server.parserstatus = True
+			self.serverisup(server, response.status_code)
+		else:
 			server.parserstatus = False
 			self.serverisdown(server, response.status_code)
 		

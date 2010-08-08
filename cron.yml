@@ -5,4 +5,4 @@ cron:
 
 - description: maintenance
   url: /maintenance 
-  schedule: every 20 minutes
+  schedule: every 50 minutes

@@ -44,6 +44,7 @@ class Server(db.Model):
 	notifywithsms = db.BooleanProperty("SMS notifications", default=False)
 	parser = db.StringProperty("Parser")
 	parserstatus = db.BooleanProperty("Parser status", default=True)
+	parsermetadata = db.StringProperty("Parser metadata", multiline=False)
 	uptime = db.StringProperty("Uptime")
 	lastmonitor = db.DateTimeProperty("Last time monitor ran")
 	

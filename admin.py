@@ -73,6 +73,7 @@ class StoreServer(webapp.RequestHandler):
 			server.notifywithemail = True
 		#server.notifywithprowl = self.request.get('notifywithtwitter')
 		server.parser = self.request.get('parser')
+		server.parsermetadata = self.request.get('parsermetadata')
 		server.email = users.get_current_user().email()
 		server.put()
 		self.redirect('/admin')

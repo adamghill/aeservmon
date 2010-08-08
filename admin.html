@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <td>{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</td>
         <td>{{ server.responsecode }}</td>
         <td>{{ server.uptime }}</td>
-        <td>{{ server.parser }}</td>
+        <td>{{ server.parser }} {% if server.parsemetadata %}({{ server.parsemetadata }}){% endif %}</td>
         <td>{% if server.notifywithprowl %}Y{% else %}N{% endif %}</td>
         <td>{% if server.notifywithemail %}Y{% else %}N{% endif %}</td>
         <td>
@@ -79,16 +79,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <textarea name="serverdomain" rows="1" cols="35"></textarea>
       </div>
   
+  <!-- parser[selectedIndex].value -->
+  
       <div id="entry">
         <h4>Parser</h4>
-        <select name="parser">
+        <select name="parser" id="parser" onChange="if ($('#parser').val() == 'startswith' || $('#parser').val() == 'endswith' || $('#parser').val() == 'regex') { $('#parsermetadata').show(); } else { $('#parsermetadata').hide(); }">
           <option value="none">None</option>
-          <option value="html">HTML</option>
+          <!--option value="html">HTML</option-->
           <option value="json">JSON</option>
           <option value="xml">XML</option>
-          <option value="atom">ATOM</option>
-          <option value="rss">RSS</option>
+          <!--option value="atom">ATOM</option>
+          <option value="rss">RSS</option-->
+          <option value="startswith">Starts With</option>
+          <option value="endswith">Ends With</option>
+          <option value="regex">Regex</option>
         </select>
+        <br />
+        <textarea id="parsermetadata" name="parsermetadata" rows="1" cols="35" style="display: none"></textarea>
       </div>
   
       <div id="entry">

@@ -37,11 +37,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			</h2>
 			
 			<div class="meta">
-				<span class="uptime"><strong>Uptime:</strong> {{ server.uptime }}</span>
-				<span class="lastmonitor"><strong>Last monitored:</strong> {{ server.lastmonitor|date:_("M d, Y H:i:s") }}</span>
+				<span class="uptime"><strong>Uptime: </strong>{{ server.uptime }}</span>
+				<span class="lastmonitor"><strong>Last monitored: </strong>{{ server.lastmonitor|date:_("M d, Y H:i:s") }}</span>
 				<!--<span class="monitored"><strong>Monitored since:</strong> {{ server.startedmonitoring|date:_("M d, Y H:i:s") }}</span>-->
-				{% if server.parser %}
-				  <span class="parser"><strong>Parser:</strong> {{ server.parser }} ({% if server.parserstatus %}good{% else %}failed{% endif %})</span>
+				{% if server.lastmonitor %}
+         {% if server.parser %}
+           <span class="parser"><strong>Parser {% if server.parserstatus %}sucessful{% else %}failed{% endif %}: </strong>{{ server.parser }}</span>
+         {% endif %}
 				{% endif %}
 			</div>
 		</div>
