@@ -345,8 +345,8 @@ fieldset {
 	margin-top: 20px;
 }
 
-#form textarea {
-	height: 18px;
+#form input[type=text] {
+  height: 18px;
 	border: 1px solid #aaa;
 }
 
@@ -378,8 +378,11 @@ fieldset {
 	/* font-family: "Helvetica Neue", "HelveticaNeue"; */
 }
 
-#ssl {
-	position: relative;
-	top: -8px;
+.error {
+  color: red;
+  font-weight: bold;
+  border: 5px solid yellow;
+  text-align: center;
+  margin: 20px;
+  padding: 5px;
 }
-

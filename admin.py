@@ -29,18 +29,23 @@
 import httplib
 import cgi
 import wsgiref.handlers
-from models import Server, AdminOptions
 import os
+import time
+import prowlpy
+import datetime
+import logging
+
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 from google.appengine.ext.db import Key
-import time
-import prowlpy
-import datetime
-import logging
+from google.appengine.api import urlfetch
+from google.appengine.api.urlfetch import DownloadError
+
+from models import Server, AdminOptions
+
 
 class Admin(webapp.RequestHandler):
 	def get(self):
@@ -53,9 +58,12 @@ class Admin(webapp.RequestHandler):
 			twitterpass = "Change Me"
 			twitteruser = "Change Me"
 			prowlkey = "Change Me"
+
 		serverlist = db.GqlQuery("SELECT * FROM Server")
 		user = users.get_current_user()
-		template_values = {'user': user, 'twitteruser': twitteruser, 'twitterpass': twitterpass, 'serverlist': serverlist, 'prowlkey': prowlkey, 'adminoptions': adminoptions,}
+		error = self.request.get('error')
+		
+		template_values = {'user': user, 'twitteruser': twitteruser, 'twitterpass': twitterpass, 'serverlist': serverlist, 'prowlkey': prowlkey, 'adminoptions': adminoptions, 'error': error,}
 		path = os.path.join(os.path.dirname(__file__), 'admin.html')
 		self.response.out.write(template.render(path, template_values))
         
@@ -63,20 +71,32 @@ class StoreServer(webapp.RequestHandler):
 	def post(self):	
 		server = Server(key_name=self.request.get('serverdomain'))
 		server.serverdomain = self.request.get('serverdomain')
+
+		url = "http"
 		if self.request.get('ssl') == "True":
 			server.ssl = True
+			url += "s"
 		else:
 			server.ssl = False
-		if self.request.get('notifywithprowl') == "True":
-			server.notifywithprowl = True
-		if self.request.get('notifywithemail') == "True":
-			server.notifywithemail = True
-		#server.notifywithprowl = self.request.get('notifywithtwitter')
-		server.parser = self.request.get('parser')
-		server.parsermetadata = self.request.get('parsermetadata')
-		server.email = users.get_current_user().email()
-		server.put()
-		self.redirect('/admin')
+		
+		url += "://%s" % server.serverdomain
+
+		try:
+			urlfetch.fetch(url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10 )
+			
+			if self.request.get('notifywithprowl') == "True":
+				server.notifywithprowl = True
+			if self.request.get('notifywithemail') == "True":
+				server.notifywithemail = True
+ 
+			#server.notifywithprowl = self.request.get('notifywithtwitter')
+			server.parser = self.request.get('parser')
+			server.parsermetadata = self.request.get('parsermetadata')
+			server.email = users.get_current_user().email()
+			server.put()
+			self.redirect('/admin')
+		except DownloadError:
+			self.redirect('/admin?error=Incorrect url: %s' % url)
         
 class DeleteServer(webapp.RequestHandler):
 	def post(self):

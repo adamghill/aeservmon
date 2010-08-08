@@ -26,6 +26,8 @@
 
 
 from google.appengine.ext import db
+from google.appengine.ext.webapp import template
+from google.appengine.ext.db import djangoforms
 
 class Server(db.Model):
 	serverdomain = db.StringProperty("Server Domain", multiline=False)

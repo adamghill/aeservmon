@@ -28,6 +28,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {% extends 'core.html' %}
 
 {% block pagearea %}
+
+{% if error %}
+  <div class="error">
+    {{ error }}
+  </div>
+{% endif %}
+
 <h3>Current monitors</h3>
 
 <div id="adminserverlist">
@@ -76,7 +83,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           <option value="False">http://</option>
           <option value="True">https://</option>
         </select>
-        <textarea name="serverdomain" rows="1" cols="35"></textarea>
+        <input type="text" name="serverdomain" size="50" />
       </div>
   
   <!-- parser[selectedIndex].value -->
@@ -95,7 +102,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           <option value="regex">Regex</option>
         </select>
         <br />
-        <textarea id="parsermetadata" name="parsermetadata" rows="1" cols="35" style="display: none"></textarea>
+        <input type="text" id="parsermetadata" name="parsermetadata" size="50" style="display: none"></input>
       </div>
   
       <div id="entry">
@@ -152,7 +159,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           Prowl API key
         </h4>
         
-        <textarea name="prowlkey" rows="1" cols="40"></textarea>
+        <input type="text" name="prowlkey" size="50"></input>
       </div>
       
       <div id="button">
