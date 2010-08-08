@@ -69,29 +69,37 @@ class Admin(webapp.RequestHandler):
         
 class StoreServer(webapp.RequestHandler):
 	def post(self):	
-		server = Server(key_name=self.request.get('serverdomain'))
-		server.serverdomain = self.request.get('serverdomain')
-
+		serverdomain = self.request.get('serverdomain')
+		server_ssl = False
 		url = "http"
 		if self.request.get('ssl') == "True":
-			server.ssl = True
+			server_ssl = True
 			url += "s"
-		else:
-			server.ssl = False
+		url += "://%s" % serverdomain
+
+		notifywithprowl = self.request.get('notifywithprowl')
+		notifywithemail = self.request.get('notifywithemail')
+		parser = self.request.get('parser')
+		parsermetadata = self.request.get('parsermetadata')
 		
-		url += "://%s" % server.serverdomain
+		# Create a server obj.
+		server = Server(key_name=url + parser + parsermetadata + notifywithprowl + notifywithemail)
+		server.serverdomain = serverdomain
+		server.ssl = server_ssl
 
 		try:
+			# Make sure the url is valid.
 			urlfetch.fetch(url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10 )
 			
-			if self.request.get('notifywithprowl') == "True":
+			if notifywithprowl == "True":
 				server.notifywithprowl = True
-			if self.request.get('notifywithemail') == "True":
+			if notifywithemail == "True":
 				server.notifywithemail = True
  
-			#server.notifywithprowl = self.request.get('notifywithtwitter')
-			server.parser = self.request.get('parser')
-			server.parsermetadata = self.request.get('parsermetadata')
+			#server.notifywithtwitter = self.request.get('notifywithtwitter')
+			server.parser = parser
+			server.parsermetadata = parsermetadata
+			
 			server.email = users.get_current_user().email()
 			server.put()
 			self.redirect('/admin')
