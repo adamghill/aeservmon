@@ -46,7 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     
     {% for server in serverlist %}
       <tr>
-        <td>{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</td>
+        <td><a href="{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}">{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</a></td>
         <td>{{ server.responsecode }}</td>
         <td>{{ server.uptime }}</td>
         <td>{{ server.parser }} {% if server.parsemetadata %}({{ server.parsemetadata }}){% endif %}</td>
