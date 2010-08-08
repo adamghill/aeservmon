@@ -56,7 +56,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <td><a href="{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}">{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</a></td>
         <td>{{ server.responsecode }}</td>
         <td>{{ server.uptime }}</td>
-        <td>{{ server.parser }} {% if server.parsemetadata %}({{ server.parsemetadata }}){% endif %}</td>
+        <td>{{ server.parser }} {% if server.parsermetadata %}({{ server.parsermetadata }}){% endif %}</td>
         <td>{% if server.notifywithprowl %}Y{% else %}N{% endif %}</td>
         <td>{% if server.notifywithemail %}Y{% else %}N{% endif %}</td>
         <td>
