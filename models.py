@@ -32,6 +32,7 @@ from google.appengine.ext.db import djangoforms
 class Server(db.Model):
 	serverdomain = db.StringProperty("Server Domain", multiline=False)
 	ssl = db.BooleanProperty("Is server SSL?", default=False)
+	url = db.StringProperty("Url", multiline=False)
 	email = db.EmailProperty("Email Address for notification")
 	startedmonitoring = db.DateTimeProperty("Date monitoring started", auto_now_add=True)
 	timeservercameback = db.DateTimeProperty("Date server came back online", auto_now_add=True)
@@ -47,8 +48,9 @@ class Server(db.Model):
 	parser = db.StringProperty("Parser")
 	parserstatus = db.BooleanProperty("Parser status", default=True)
 	parsermetadata = db.StringProperty("Parser metadata", multiline=False)
-	uptime = db.StringProperty("Uptime")
+	uptime = db.StringProperty("Uptime", default="0")
 	lastmonitor = db.DateTimeProperty("Last time monitor ran")
+	keyvalue = db.StringProperty("Key")
 	
 	class Uptime(db.Model):
 		unittime = db.DateTimeProperty("Time period for uptime data", auto_now_add=False)

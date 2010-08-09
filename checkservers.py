@@ -127,6 +127,8 @@ class CheckServers(webapp.RequestHandler):
 					self.parseregex(server, response)
 				elif server.parser == "endswith":
 					self.parseendswith(server, response)
+				elif server.parser == "contains":
+					self.parsecontains(server, response)
 				else:
 					self.serverisup(server, response.status_code)
 					
@@ -155,9 +157,20 @@ class CheckServers(webapp.RequestHandler):
 		else:
 			server.parserstatus = False
 			self.serverisdown(server, response.status_code)
+			
+	def parsecontains(self, server, response):
+		if unicode(response.content, errors='ignore').find(server.parsermetadata) > -1:
+			server.parserstatus = True
+			self.serverisup(server, response.status_code)
+		else:
+			server.parserstatus = False
+			self.serverisdown(server, response.status_code)
 
 	def parseregex(self, server, response):
-		if re.match(server.parsermetadata, response.content):
+		logging.debug('try to match: %s' % server.parsermetadata)
+		logging.debug(re.match(server.parsermetadata, unicode(response.content, errors='ignore')))
+		
+		if re.match(server.parsermetadata, unicode(response.content, errors='ignore')):
 			server.parserstatus = True
 			self.serverisup(server, response.status_code)
 		else:

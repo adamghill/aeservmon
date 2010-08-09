@@ -53,15 +53,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     
     {% for server in serverlist %}
       <tr>
-        <td><a href="{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}">{% if server.ssl %}https{% else %}http{% endif %}://{{ server.serverdomain }}</a></td>
+        <td><a href="{{ server.url }}">{{ server.url }}</a></td>
         <td>{{ server.responsecode }}</td>
         <td>{{ server.uptime }}</td>
-        <td>{{ server.parser }} {% if server.parsermetadata %}({{ server.parsermetadata }}){% endif %}</td>
+        <td>{{ server.parser }} {% if server.parsermetadata %}<div class="parsermetadata">{{ server.parsermetadata }}</div>{% endif %}</td>
         <td>{% if server.notifywithprowl %}Y{% else %}N{% endif %}</td>
         <td>{% if server.notifywithemail %}Y{% else %}N{% endif %}</td>
         <td>
           <form action="/admin/deleteserver" method="post">
-            <input type="hidden" name="serverdomain" value={{ server.serverdomain }} />
+            <input type="hidden" name="keyvalue" value="{{ server.keyvalue }}" />
             <input type="submit" value="Delete Server" />
           </form>
         </td>
@@ -90,16 +90,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   
       <div id="entry">
         <h4>Parser</h4>
-        <select name="parser" id="parser" onChange="if ($('#parser').val() == 'startswith' || $('#parser').val() == 'endswith' || $('#parser').val() == 'regex') { $('#parsermetadata').show(); } else { $('#parsermetadata').hide(); }">
+        <select name="parser" id="parser" onChange="if ($('#parser').val() == 'regex' || $('#parser').val() == 'contains') { $('#parsermetadata').show(); } else { $('#parsermetadata').hide(); }">
           <option value="none">None</option>
           <!--option value="html">HTML</option-->
           <option value="json">JSON</option>
-          <option value="xml">XML</option>
-          <!--option value="atom">ATOM</option>
-          <option value="rss">RSS</option-->
-          <option value="startswith">Starts With</option>
-          <option value="endswith">Ends With</option>
-          <option value="regex">Regex</option>
+          <!--option value="xml">XML</option-->
+          <!--option value="atom">ATOM</option-->
+          <!--option value="rss">RSS</option-->
+          <option value="contains">Contains</option>
+          <!--option value="regex">Regex</option-->
         </select>
         <br />
         <input type="text" id="parsermetadata" name="parsermetadata" size="50" style="display: none"></input>

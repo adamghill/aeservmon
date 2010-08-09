@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{% for server in serverlist %}
 		<div  class="server {% if server.status %}up{% else %}down{% endif %}">		
 			<h2>
-				<a href="http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}">http{% if server.ssl %}s{% endif %}://{{ server.serverdomain }}</a>
+				<a href="{{ server.url }}">{{ server.url }}</a>
 				<span class="httpcode">{{ server.responsecode }}</span>
 			</h2>
 			

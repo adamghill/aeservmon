@@ -68,48 +68,22 @@ class Admin(webapp.RequestHandler):
 		self.response.out.write(template.render(path, template_values))
         
 class StoreServer(webapp.RequestHandler):
-	def post(self):	
-		serverdomain = self.request.get('serverdomain')
-		server_ssl = False
-		url = "http"
-		if self.request.get('ssl') == "True":
-			server_ssl = True
-			url += "s"
-		url += "://%s" % serverdomain
-
-		notifywithprowl = self.request.get('notifywithprowl')
-		notifywithemail = self.request.get('notifywithemail')
-		parser = self.request.get('parser')
-		parsermetadata = self.request.get('parsermetadata')
+	def post(self):
+		server = getServer(self)
 		
-		# Create a server obj.
-		server = Server(key_name=url + parser + parsermetadata + notifywithprowl + notifywithemail)
-		server.serverdomain = serverdomain
-		server.ssl = server_ssl
-
-		try:
+		try:			
 			# Make sure the url is valid.
-			urlfetch.fetch(url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10 )
+			urlfetch.fetch(server.url, headers = {'Cache-Control' : 'max-age=30'}, deadline=10)
 			
-			if notifywithprowl == "True":
-				server.notifywithprowl = True
-			if notifywithemail == "True":
-				server.notifywithemail = True
- 
-			#server.notifywithtwitter = self.request.get('notifywithtwitter')
-			server.parser = parser
-			server.parsermetadata = parsermetadata
-			
-			server.email = users.get_current_user().email()
 			server.put()
 			self.redirect('/admin')
 		except DownloadError:
-			self.redirect('/admin?error=Incorrect url: %s' % url)
+			self.redirect('/admin?error=Incorrect url: %s' % server.url)
         
 class DeleteServer(webapp.RequestHandler):
-	def post(self):
-		serverdomain = self.request.get('serverdomain')
-		server = Server.get_by_key_name(serverdomain)
+	def post(self):		
+		keyvalue = self.request.get('keyvalue')
+		server = Server.get_by_key_name(keyvalue)
 		server.delete()
 		self.redirect('/admin')
         
@@ -131,6 +105,52 @@ class StoreAdminOptions(webapp.RequestHandler):
 def main():
 	application = webapp.WSGIApplication([('/admin/storeserver', StoreServer),('/admin/deleteserver', DeleteServer),('/admin/storeadminoptions', StoreAdminOptions),('/admin', Admin)],debug=True)
 	wsgiref.handlers.CGIHandler().run(application)
+	
+
+def getServer(self):
+	serverdomain = self.request.get('serverdomain')
+	server_ssl = False
+
+	url = "http"
+	if self.request.get('ssl') == "True":
+		server_ssl = True
+		url += "s"
+	url += "://%s" % serverdomain
+
+	notifywithprowl = self.request.get('notifywithprowl')
+	notifywithemail = self.request.get('notifywithemail')
+	parser = self.request.get('parser')
+	parsermetadata = self.request.get('parsermetadata')
+	
+	# Figure out the key.
+	keyvalue = "%s_%s_%s" % (url, parser, parsermetadata)
+	if notifywithprowl:
+		keyvalue += "_Y"
+	else:
+		keyvalue += "_N"
+	if notifywithemail:
+		keyvalue += "_Y"
+	else:
+		keyvalue += "_N"
+	
+	server = Server(key_name=keyvalue)
+	
+	server.keyvalue = keyvalue
+	server.url = url
+	server.serverdomain = serverdomain
+	server.ssl = server_ssl
+
+	if notifywithprowl == "True":
+		server.notifywithprowl = True
+	if notifywithemail == "True":
+		server.notifywithemail = True
+
+	#server.notifywithtwitter = self.request.get('notifywithtwitter')
+	server.parser = parser
+	server.parsermetadata = parsermetadata
+	
+	server.email = users.get_current_user().email()
+	return server
 
 
 if __name__ == '__main__':
