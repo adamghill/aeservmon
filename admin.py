@@ -82,8 +82,8 @@ class StoreServer(webapp.RequestHandler):
         
 class DeleteServer(webapp.RequestHandler):
 	def post(self):		
-		keyvalue = self.request.get('keyvalue')
-		server = Server.get_by_key_name(keyvalue)
+		key = self.request.get('key')
+		server = Server.get_by_key_name(key)
 		server.delete()
 		self.redirect('/admin')
         
@@ -134,8 +134,6 @@ def getServer(self):
 		keyvalue += "_N"
 	
 	server = Server(key_name=keyvalue)
-	
-	server.keyvalue = keyvalue
 	server.url = url
 	server.serverdomain = serverdomain
 	server.ssl = server_ssl
